@@ -1,0 +1,227 @@
+<!--
+Design by Maria Gonzalez
+
+Name       : B o o k s
+Description: Choose your perfect book
+Version    : 1.0
+Released   : 2013-2014
+
+-->
+<html>
+
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mobile.css" type="text/css"/> 
+   	<link rel="stylesheet" href="css/main.css" type="text/css" media="screen"/> 
+	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen"/> 
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<script type="text/javascript" src="js/css3-mediaqueries.js"></script> 
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-mobile.js"></script> 
+	<!--<script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js"></script>
+    <script src="https://d10ajoocuyu32n.cloudfront.net/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>-->
+
+	<title>b o o k s</title>
+	<link rel="icon" href="images/books-icon.png"/>
+	
+	<script type="text/javascript">
+			
+		$(document).ready(function() {
+			var url = "indexTopBooks";
+			$.get(url, { }, function(data){
+				var top = data.getElementsByTagName("book");
+				for (var j=0; j<top.length; j++) {
+					var autor = top[j].getElementsByTagName("autor")[0].childNodes[0].nodeValue;
+					var titulo = top[j].getElementsByTagName("titulo")[0].childNodes[0].nodeValue;					
+					$("#"+"topbook"+String(j+1))[0].innerHTML = titulo+ " - " +autor;
+				}			
+			});				
+		});
+		
+		$(document).ready(function() {
+			var url = "indexBookList";
+			$.get(url, { }, function(data){
+				var b = data.getElementsByTagName("book");
+				for (var j=0; j<b.length; j++) {
+					var autor = b[j].getElementsByTagName("autor")[0].childNodes[0].nodeValue;
+					var titulo = b[j].getElementsByTagName("titulo")[0].childNodes[0].nodeValue;
+					var disponible = b[j].getElementsByTagName("disponible")[0].childNodes[0].nodeValue;
+					var cont = 0;
+					if(disponible=="1")					
+						$("#"+"book"+String(j+1))[0].innerHTML = titulo+ " - " +autor;					
+					else
+					{
+						cont++;
+						if(cont==(b.length-1))
+							$("#"+"book"+String(j+1))[0].innerHTML = "no books available";	
+					}
+				}			
+			});		
+		});
+		
+		$(document).ready(function() {
+			var url = "indexUserList";
+			$.get(url, { }, function(data){
+				var u = data.getElementsByTagName("user");
+				for (var j=0; j<u.length; j++) {
+					var nombre = u[j].getElementsByTagName("nombre")[0].childNodes[0].nodeValue;	
+					var conectado = u[j].getElementsByTagName("conectado")[0].childNodes[0].nodeValue;
+					if(conectado=="1")
+						conectado = "(online)";
+					else
+						conectado = "";
+					$("#"+"user"+String(j+1))[0].innerHTML = nombre+ " " +conectado;
+				}			
+			});				
+		});	
+
+		$(document).ready(function() {
+			var url = "indexNewsTimeline";
+			$.get(url, { }, function(data){
+				var t = data.getElementsByTagName("timeline");
+				for (var j=0; j<t.length; j++) {
+					var bydate = t[j].getElementsByTagName("bydate")[0].childNodes[0].nodeValue;
+					var username1 = t[j].getElementsByTagName("username1")[0].childNodes[0].nodeValue;
+					var accion = t[j].getElementsByTagName("accion")[0].childNodes[0].nodeValue;
+					var book = t[j].getElementsByTagName("booktitle")[0].childNodes[0].nodeValue;
+					var username2 = t[j].getElementsByTagName("username2")[0].childNodes[0].nodeValue;
+					var algo = "";
+					if(accion=="lends")	
+						algo = " \"" +book+ "\" to " +username2+ ".";											
+					else
+						algo = "a book: \"" +book+ "\".";
+					$("#"+"new"+String(j+1))[0].innerHTML = bydate+ " - " +username1+ " " +accion+ " " +algo;					
+				}			
+			});		
+		});
+
+		function prestarLibro() {
+			var idField = $("#prestar")[0];			
+			var url = "indexLendBook?tit=" + escape(idField.value);
+			$.get(url, { }, function(data){
+				alert("Lending a book: done. Refresh");
+			});			
+		}
+
+		function parseMessage(fieldID, data) {			
+			var message = data.getElementsByTagName("message")[0];			
+			messageStr = message.childNodes[0].nodeValue;			
+			setMessage(fieldID, messageStr);
+			var news = data.getElementsByTagName("timeline");
+			for (var j=0; j<news.length; j++) {
+				var bydate = news[j].getElementsByTagName("bydate")[0].childNodes[0].nodeValue;
+				var username1 = news[j].getElementsByTagName("username1")[0].childNodes[0].nodeValue;
+				var accion = news[j].getElementsByTagName("accion")[0].childNodes[0].nodeValue;
+				var book = news[j].getElementsByTagName("booktitle")[0].childNodes[0].nodeValue;
+				var username2 = news[j].getElementsByTagName("username2")[0].childNodes[0].nodeValue;
+				if(accion=="lends")					
+					$("#"+"new"+String(j+1))[0].innerHTML = date+ " - " +username1+ " " +accion+ " \"" +book+ "\" to " +username2;					
+				else
+					$("#"+"new"+String(j+1))[0].innerHTML = date+ " - " +username1+ " " +accion+ " add a book: \"" +book+ "\".";	
+			}
+		}		
+		
+		function setMessage(fieldID, message) {
+			var responseElement = $("#"+fieldID)[0];
+			responseElement.value = message;
+		}
+
+		function clearTextBox() {
+			var prestarTextBox = $("#prestar")[0];
+				prestarTextBox.value="";
+		}	
+		
+	</script>
+		
+</head>
+
+<body>
+
+<div data-role="page" id="page1">
+
+    <div data-theme="a" data-role="header">
+	<span class="ui-title"></span>      		
+		<a data-role="button" href="" data-icon="home" data-iconpos="left" class="ui-btn-left" onclick="window.location.reload()">Home</a>		
+    </div>
+
+	<div data-role="content">	
+		<img src="images/maria1.png" align="middle" WIDTH="400" Height="300">
+	    <div data-role="collapsible-set" data-theme="a">
+		    <div data-role="collapsible">
+		        <h3>Top books</h3>
+                <ul data-role="listview" data-divider-theme="" data-inset="true">
+                    <li data-theme="c">
+                        <a id="topbook1" href="#" data-transition="slide"></a>
+                    </li>
+                    <li data-theme="c">
+                        <a id="topbook2" href="#" data-transition="slide"></a>
+                    </li>
+                    <li data-theme="c">
+                        <a id="topbook3" href="#" data-transition="slide"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+	
+    <div class="container content">
+	    <div class="row">		
+		    <div class="twocol body">
+				<h3>TIMELINE</h3>			
+				<p id="new1"></p>
+				<p id="new2"></p>
+				<p id="new3"></p>
+				<p id="new4"></p>
+				<p id="new5"></p>
+				<p id="new6"></p>
+				<p id="new7"></p>
+				<p id="new8"></p>
+				<p id="new9"></p>
+				<p id="new10"></p>				
+			</div>	
+		    <div class="twocol sidebar">				
+			    <ul class="style3">
+				    <li>
+					    <h3>Description</h3>
+					    <p>Choose your favourite book, add a new book and share your loans.</p>
+				    </li>
+				    <li>						
+					    <h3>User list</h3>
+					    <p id="user1"></p>
+						<p id="user2"></p>
+						<p id="user3"></p>
+						<p id="user4"></p>
+						<p id="user5"></p>
+						<a onClick="window.location.href='/newuser.html'">new user...</a>						
+				    </li>
+				    <li>
+					    <h3>Books available</h3>						
+					    <p id="book1"></p>
+						<p id="book2"></p>
+						<p id="book3"></p>
+						<p id="book4"></p>
+						<p id="book5"></p>	
+						<a onClick="window.location.href='/addbook.html'">new book...</a>
+						<br><br>
+						<label for="prestar">Book title:</label>
+                        <input id="prestar" placeholder=""  type="text" onfocus="clearTextBox()"/>
+						<input type="button" value="Prestar" onClick="prestarLibro();">						
+				    </li>
+			    </ul>			
+		    </div>					
+	    </div>	
+    </div>
+	
+    <div data-theme="a" data-role="footer" data-position="fixed">
+        <h3>B o o k s © 2013-2014</h3>
+    </div>
+	
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mobile.css" type="text/css"/> 
+   	<link rel="stylesheet" href="css/main.css" type="text/css" media="screen"/> 
+	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen"/> 
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<script type="text/javascript" src="js/css3-mediaqueries.js"></script> 
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script> 
+	<script type="text/javascript" src="js/jquery-mobile.js"></script> 
+    <title>New user - b o o k s</title>
+	<link rel="icon" href="images/books-icon.png"/> 
+	
+	<script type="text/javascript">		
+		
+		$(document).ready(function() {
+			var url = "indexAllUsers";
+			$.get(url, { }, function(data){
+				var u = data.getElementsByTagName("user");
+				for (var j=0; j<u.length; j++) {
+					var nombre = u[j].getElementsByTagName("nombre")[0].childNodes[0].nodeValue;
+					var conectado = u[j].getElementsByTagName("conectado")[0].childNodes[0].nodeValue;
+					if(conectado=="1")
+						conectado = "(online)";
+					else
+						conectado = "";
+					$("#"+"user"+String(j+1))[0].innerHTML = nombre+ " " +conectado;
+				}			
+			});						
+		});
+		
+		function newuser() {
+			var idFieldNombre = $("#nombre")[0];
+			var idFieldPass = $("#pass")[0];
+			var url = "indexNewUser?user=" + escape(idFieldNombre.value)+ " " + escape(idFieldPass.value); 
+			$.get(url, { }, function(data){
+				alert("New user has been added. Refresh");
+			});		
+		}	
+		
+		function login() {
+			var idFieldN = $("#nombre")[0];
+			var idFieldP = $("#pass")[0];
+			var url = "indexLogin?login=" + escape(idFieldN.value)+ " " + escape(idFieldP.value); 
+			$.get(url, { }, function(data){
+				alert("User online.");
+			});		
+		}
+
+		function disconnect() {
+			var url = "indexDisconnect"; 
+			$.get(url, { }, function(data){
+				alert("User offline.");
+			});		
+		}		
+		
+	</script>
+   
+</head>
+
+<body>
+
+<div data-role="page" id="page1">  
+
+	<div data-theme="d" data-role="header">
+		<span class="ui-title"></span>        
+		<a data-role="button" class="ui-btn-right" onClick="disconnect();">Disconnect</a>	
+		<a data-role="button" href="" data-icon="search" data-iconpos="left" class="ui-btn-left" onclick="window.location.reload()">Refresh</a>		
+    </div>   
+
+   <div data-role="content">
+        <div data-role="fieldcontain">
+            <label for="nombre">Nickname: </label>
+            <input name="" id="nombre" placeholder="" value="" type="text">
+        </div>
+        <div data-role="fieldcontain">
+            <label for="pass">Password: </label>
+            <input name="" id="pass" placeholder="" value="" type="text">
+        </div>
+       	<input data-icon="check" data-iconpos="left" value="Add" type="button" onClick="newuser();"> 
+		<input data-icon="star" data-iconpos="left" value="Connect" type="button" onClick="login();"> 
+        <a data-role="button" href="" data-icon="back" data-iconpos="left" onClick="window.location.href='/index.html'">Cancel</a>
+    </div>	
+	
+	<div class="container content">
+	 	<h3>All users</h3>			
+		<p id="user1"></p>
+		<p id="user2"></p>
+		<p id="user3"></p>
+		<p id="user4"></p>
+		<p id="user5"></p>
+		<p id="user6"></p>
+		<p id="user7"></p>
+		<p id="user8"></p>
+		<p id="user9"></p>
+		<p id="user10"></p>				
+	</div>			    
+		
+	<div data-theme="d" data-role="footer" data-position="fixed">
+        <h3>B o o k s © 2013-2014</h3>
+    </div>
+</div>
+
+</body>
+
+</html>

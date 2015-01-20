@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mobile.css" type="text/css"/> 
+   	<link rel="stylesheet" href="css/main.css" type="text/css" media="screen"/> 
+	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen"/> 
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<script type="text/javascript" src="js/css3-mediaqueries.js"></script> 
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script> 
+	<script type="text/javascript" src="js/jquery-mobile.js"></script> 
+    <title>Login - b o o k s</title>
+	<link rel="icon" href="images/books-icon.png"/> 
+	
+	<script type="text/javascript">		
+		function login() {
+			var idFieldNombre = $("#loginNombre")[0];
+			var idFieldPass = $("#loginPass")[0];
+			var url = "indexLogin?login=" + escape(idFieldNombre.value)+ " " + escape(idFieldPass.value); 
+			$.get(url, { }, function(data){
+				alert("Welcome");
+			});		
+		}			
+	</script>
+   
+</head>
+
+<body>
+
+<div data-role="page" id="page1"> 
+
+	<div data-theme="d" data-role="header">
+		<span class="ui-title"></span>        
+		<a data-role="button" data-icon="home" class="ui-btn-right" onClick="window.location.href='/index.html'">Back</a>			
+    </div>
+	
+	<div data-role="content">
+        <div data-role="fieldcontain">
+            <label for="loginNombre">User</label>
+            <input name="" id="loginNombre" placeholder="" value="" type="text">
+        </div>
+        <div data-role="fieldcontain">
+            <label for="loginPass">Password</label>
+            <input name="" id="loginPass" placeholder="" value="" type="text">
+        </div>
+        <input data-icon="check" data-iconpos="left" value="Submit" type="button" onClick="login();"> 
+        <a data-role="button" href="" data-icon="back" data-iconpos="left" onClick="window.location.href='/index.html'">Cancel</a>
+		<a data-role="button" href="" data-icon="plus" data-iconpos="left" onClick="window.location.href='/newuser.html'">New</a>
+    </div>
+	
+	<div data-theme="d" data-role="footer" data-position="fixed">
+        <h3>B o o k s © 2013-2014</h3>
+    </div>
+</div>
+
+</body>
+
+</html>

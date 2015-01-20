@@ -1,0 +1,9 @@
+# Directorios de configuración del proyecto
+node_modules/*
+
+# Archivos de entornos de desarrollo y editores de texto
+.buildpath
+.idea
+.project
+.settings
+.classpath

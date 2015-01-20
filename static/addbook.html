@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="css/mobile.css" type="text/css"/> 
+   	<link rel="stylesheet" href="css/main.css" type="text/css" media="screen"/> 
+	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen"/> 
+	<link rel="shortcut icon" href="/favicon.ico" />
+	<script type="text/javascript" src="js/css3-mediaqueries.js"></script> 
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script> 
+	<script type="text/javascript" src="js/jquery-mobile.js"></script> 
+    <title>New book - b o o k s</title>
+	<link rel="icon" href="images/books-icon.png"/> 
+	
+	<script type="text/javascript">		
+		
+		$(document).ready(function() {
+			var url = "indexAllBooks";
+			$.get(url, { }, function(data){
+				var u = data.getElementsByTagName("book");
+				for (var j=0; j<u.length; j++) {
+					var titulo = u[j].getElementsByTagName("titulo")[0].childNodes[0].nodeValue;	
+					var autor = u[j].getElementsByTagName("autor")[0].childNodes[0].nodeValue;
+					$("#"+"book"+String(j+1))[0].innerHTML = titulo+ " - " +autor;
+				}			
+			});						
+		});		
+		
+		function newbook() {
+			var idFieldTitulo = $("#titulo")[0];
+			var idFieldAutor = $("#autor")[0];
+			var url = "indexAddBook?libro=" + escape(idFieldTitulo.value)+ "-" + escape(idFieldAutor.value); 
+			$.get(url, { }, function(data){
+				alert("New book. Refresh");
+			});	
+		}
+		
+	</script>
+   
+</head>
+
+<body>
+
+<div data-role="page" id="page1">
+
+   <div data-theme="d" data-role="header">
+		<span class="ui-title"></span>        
+		<a data-role="button" data-icon="home" class="ui-btn-right" onClick="window.location.href='/index.html'">Back</a>	
+		<a data-role="button" href="" data-icon="search" data-iconpos="left" class="ui-btn-left" onclick="window.location.reload()">Refresh</a>				
+    </div>
+	
+    <div data-role="content">
+        <div data-role="fieldcontain">
+            <label for="titulo">Title: </label>
+            <input name="" id="titulo" placeholder="" value="" type="text">
+        </div>
+        <div data-role="fieldcontain">
+            <label for="autor">Author: </label>
+            <input name="" id="autor" placeholder="" value="" type="text">
+        </div>
+        <input data-icon="check" data-iconpos="left" value="Add" type="button" onClick="newbook();"> 
+        <a data-role="button" href="" data-icon="back" data-iconpos="left" onClick="window.location.href='/index.html'">Cancel</a>
+    </div>
+	
+	<div class="container content">
+	 	<h3>All books</h3>			
+		<p id="book1"></p>
+		<p id="book2"></p>
+		<p id="book3"></p>
+		<p id="book4"></p>
+		<p id="book5"></p>
+		<p id="book6"></p>
+		<p id="book7"></p>
+		<p id="book8"></p>
+		<p id="book9"></p>
+		<p id="book10"></p>		
+		<p id="book11"></p>	
+		<p id="book12"></p>	
+		<p id="book13"></p>	
+		<p id="book14"></p>	
+		<p id="book15"></p>	
+		<p id="book16"></p>	
+		<p id="book17"></p>	
+		<p id="book18"></p>	
+		<p id="book19"></p>	
+		<p id="book20"></p>			
+	</div>
+	
+	<div data-theme="d" data-role="footer" data-position="fixed">
+        <h3>B o o k s © 2013-2014</h3>
+    </div>
+</div>
+
+</body>
+
+</html>
