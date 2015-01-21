@@ -3,18 +3,19 @@
 Proceso de instalación
 ----------------------------------
 
-Subir al repositorio:
+Instalar node en tu sistema y ejecuar estos comandos:
 
-    git init
-    git remote add origin <rutagitproyecto>
-    git add .
-    git commit -m "Initial commit"
-    git push origin master
+    cd <carpetaproyecto>
+    npm install (para añadir dependecias en node_modules)
 
-Bajar del repositorio y hacer una copia en tu PC:
+Instalar couchdb en tu sistema para probar la BD (se necesitará cambiar el puerto de local.ini):
 
-    git clone <rutagitproyecto> Proyecto
-    cd <nombrecarpeta>
+    start couchdb
+    futon
+
+Comprobar que existe el fichero Procfile con la APP index.js
+
+    node index.js
 
 
 CONTENIDO
